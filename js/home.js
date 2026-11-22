@@ -1,7 +1,7 @@
 // home.js — 🏠今日＝まだ印を付けていないノート（新しい順）＋🔁前に読んだ1本＋進み具合
 var Home = (function () {
   function card(n, review) {
-    var lead = (n.body && n.body.lead) || '';
+    var lead = UI.plain((n.body && n.body.lead) || '');
     return '<button class="card' + (review ? ' review' : '') + '" data-id="' + UI.esc(n.id) + '">' +
       '<div class="meta"><span class="bunya">' + (review ? '🔁 前に読んだ1本・' : '') + UI.esc(n.bunya) + '</span><span class="time">' + UI.dateShort(n.date) + '</span></div>' +
       '<div class="title">' + UI.esc(n.title) + '</div>' +
