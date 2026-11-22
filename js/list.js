@@ -25,7 +25,7 @@ var List = (function () {
           var fc = Store.count(f.topics);
           var fo = openField === f.name;
           var off = Store.settings.off.indexOf(f.name) >= 0;
-          var fh = '<div class="field"><button class="row" data-field="' + UI.esc(f.name) + '"><span class="arrow">' + (fo ? '▼' : '▶') + '</span><span class="name">' + UI.esc(f.name) + (off ? '（オフ）' : '') + '</span><span class="cnt">' + fc.read + '／' + fc.total + '</span></button>';
+          var fh = '<div class="field"><button class="row" data-field="' + UI.esc(f.name) + '"><span class="arrow">›</span><span class="name">' + UI.esc(f.name) + (off ? '（オフ）' : '') + '</span><span class="cnt">' + fc.read + '／' + fc.total + '</span></button>';
           if (fo) {
             fh += f.topics.map(function (t) { return topicRow(t); }).join('');
             fh += '<div class="addrow"><button class="btn sub small" data-add="' + UI.esc(f.name) + '">＋ この分野にお題を足す</button></div>';
@@ -55,6 +55,7 @@ var List = (function () {
   }
 
   function render() {
+    if (Field.isOpen()) { Field.render(); return; }
     document.getElementById('listBody').innerHTML = q ? renderSearch() : renderTree();
   }
 
@@ -83,7 +84,7 @@ var List = (function () {
     var el = e.target.closest('button');
     if (!el) return;
     if (el.dataset.group) { openGroup = openGroup === el.dataset.group ? null : el.dataset.group; openField = null; render(); }
-    else if (el.dataset.field) { openField = openField === el.dataset.field ? null : el.dataset.field; render(); }
+    else if (el.dataset.field) Field.open(el.dataset.field);
     else if (el.dataset.add) askAdd(el.dataset.add);
     else if (el.dataset.id) Note.open(el.dataset.id);
   });
