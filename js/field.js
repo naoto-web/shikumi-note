@@ -9,6 +9,7 @@ var Field = (function () {
 
   function setView(on) {
     document.getElementById('fieldBody').hidden = !on;
+    document.getElementById('glossBody').hidden = true;
     document.getElementById('listBody').hidden = on;
     document.querySelector('#view-list .search-row').hidden = on;
   }
@@ -51,7 +52,8 @@ var Field = (function () {
     if (!m) return '<div class="matome empty-m">この分野のまとめは、ノートが2本以上たまると、クロコが書きます。</div>';
     var b = m.body || {};
     var h = '<div class="matome"><div class="m-head">🧭 この分野のまとめ<span>' + UI.dateShort(m.updated) + ' 更新</span></div>';
-    if (b.points && b.points.length) h += '<ul>' + b.points.map(function (x) { return '<li>' + UI.rich(x) + '</li>'; }).join('') + '</ul>';
+    var mseen = {};
+    if (b.points && b.points.length) h += '<ul>' + b.points.map(function (x) { return '<li>' + UI.rich(x, mseen) + '</li>'; }).join('') + '</ul>';
     // まとめの中のグラフ（その分野の全体像が一目で分かるものを1〜2個）
     (b.charts || []).slice(0, 2).forEach(function (c) {
       var g = Chart.html(c.chart);
