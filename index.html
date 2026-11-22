@@ -29,6 +29,7 @@
       <input id="listQ" type="search" placeholder="お題・ノートを探す" enterkeyhint="search">
     </div>
     <div id="listBody"></div>
+    <div id="fieldBody" hidden></div>
   </section>
   <section id="view-map" class="view" hidden>
     <div id="mapBody"></div>
@@ -43,7 +44,7 @@
 
 <nav class="tabs">
   <button data-tab="home" class="on"><span>🏠</span>今日<b id="homeBadge" hidden></b></button>
-  <button data-tab="list"><span>📚</span>一覧</button>
+  <button data-tab="list"><span>📚</span>ノート帳</button>
   <button data-tab="map"><span>🗺</span>業界</button>
   <button data-tab="more"><span>🔍</span>知りたい<b id="moreBadge" hidden></b></button>
   <button data-tab="settings"><span>⚙️</span>設定</button>
@@ -57,6 +58,7 @@
 <script src="js/ui.js"></script>
 <script src="js/note.js"></script>
 <script src="js/home.js"></script>
+<script src="js/field.js"></script>
 <script src="js/list.js"></script>
 <script src="js/map.js"></script>
 <script src="js/more.js"></script>
