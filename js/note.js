@@ -42,7 +42,7 @@ var Note = (function () {
     return (b.lead ? '<div class="lead-box"><span class="lb">💡 一言でいうと</span>' + UI.esc(b.lead) + '</div>' : '') +
       (b.sections || []).map(sectionHtml).join('') +
       (n.memo ? '<h3>📝 深掘りメモ</h3><div class="memo">' + UI.esc(n.memo) + '</div>' : '') +
-      (n.mine ? '<h3>✍️ 自分のメモ</h3><div class="memo mine">' + UI.esc(n.mine) + '</div>' : '') +
+      (n.mine ? '<h3>✍️ 自分のメモ<span class="mine-tag' + (n.mineDone ? ' done' : '') + '">' + (n.mineDone ? '✅ 本文に反映済み' : '次の朝、本文に組み込みます') + '</span></h3><div class="memo mine">' + UI.esc(n.mine) + '</div>' : '') +
       linksHtml(b.links) + sourcesHtml(b);
   }
 
@@ -52,7 +52,7 @@ var Note = (function () {
       (n.mark === 'もっと知りたい' && n.hito ? '<div class="hito-line">知りたいこと：' + UI.esc(n.hito) + '</div>' : '') +
       '<div class="hito-box" id="hitoBox" hidden><textarea id="hitoText" placeholder="どこが知りたい？（書かなくてもOK）"></textarea><button class="btn" data-hito-send>これで入れる</button></div>' +
       '<details class="mine-box"><summary>✍️ 自分のメモを書く</summary><textarea id="mineText" placeholder="ほかで知ったこと、自分の言葉でのまとめ、気づいたこと">' + UI.esc(n.mine || '') + '</textarea>' +
-      '<button class="btn sub" data-mine-save>メモを保存</button><p class="info">書いたメモは、クロコが分野のまとめやノートの本文に組み込みます。</p></details>';
+      '<button class="btn sub" data-mine-save>メモを保存</button><p class="info">書いたメモは、次の朝にクロコがノートの本文に組み込みます（疑問を書けば、調べて答えを足します）。書いたメモ自体も下に残ります。</p></details>';
   }
 
   function render(n) {
@@ -112,6 +112,7 @@ var Note = (function () {
     var text = document.getElementById('mineText').value.trim();
     var before = n.mine;
     n.mine = text;
+    n.mineDone = false;
     render(n);
     Main.render();
     UI.toast('メモを保存しました');
