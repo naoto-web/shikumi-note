@@ -6,6 +6,15 @@ var UI = (function () {
     });
   }
 
+  // 本文の **大事な部分** を太字＋下線にする（11/22 Naoto）。先に無害化してから印だけを置きかえる
+  function rich(s) {
+    return esc(s).replace(/\*\*([^*]+?)\*\*/g, '<b class="key">$1</b>');
+  }
+  // 印を取った文字だけ（カードの書き出しなど、飾りを出さない所で使う）
+  function plain(s) {
+    return String(s == null ? '' : s).replace(/\*\*/g, '');
+  }
+
   // "2026-11-23 05:31:00" → 「11/23」
   function dateShort(s) {
     var m = String(s || '').match(/^\d{4}-(\d{2})-(\d{2})/);
@@ -43,7 +52,7 @@ var UI = (function () {
     return t.has ? '📄' : '・';
   }
 
-  return { esc: esc, dateShort: dateShort, toast: toast, openSheet: openSheet, closeSheet: closeSheet, topicIcon: topicIcon };
+  return { esc: esc, rich: rich, plain: plain, dateShort: dateShort, toast: toast, openSheet: openSheet, closeSheet: closeSheet, topicIcon: topicIcon };
 })();
 
 // 画面全体で持つデータ。GAS の init の結果をここに入れて、各タブはここから描く
