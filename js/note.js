@@ -5,15 +5,15 @@ var Note = (function () {
   function sectionHtml(sec) {
     var h = '<h3>' + UI.esc(sec.h || '') + '</h3>';
     if (sec.chart) h += Chart.html(sec.chart);
-    if (sec.text) h += '<p>' + UI.esc(sec.text) + '</p>';
+    if (sec.text) h += '<p>' + UI.rich(sec.text) + '</p>';
     if (sec.items && sec.items.length) {
       var tag = sec.ol ? 'ol' : 'ul';
-      h += '<' + tag + '>' + sec.items.map(function (x) { return '<li>' + UI.esc(x) + '</li>'; }).join('') + '</' + tag + '>';
+      h += '<' + tag + '>' + sec.items.map(function (x) { return '<li>' + UI.rich(x) + '</li>'; }).join('') + '</' + tag + '>';
     }
     // 表（🗺業界マップの大手の一覧など）＝横にはみ出すときは表だけ横にスクロール
     if (sec.table && sec.table.rows && sec.table.rows.length) {
       h += '<div class="tbl-wrap"><table><thead><tr>' + (sec.table.head || []).map(function (x) { return '<th>' + UI.esc(x) + '</th>'; }).join('') + '</tr></thead><tbody>' +
-        sec.table.rows.map(function (r) { return '<tr>' + (r || []).map(function (x) { return '<td>' + UI.esc(x) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+        sec.table.rows.map(function (r) { return '<tr>' + (r || []).map(function (x) { return '<td>' + UI.rich(x) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
     }
     if (sec.note) h += '<p class="src">' + UI.esc(sec.note) + '</p>';
     return h;
@@ -39,7 +39,7 @@ var Note = (function () {
   // ノートの中身（見出しと印のボタンを除く）＝シートでも、分野のページ（章として読む）でも同じものを使う
   function bodyHtml(n) {
     var b = n.body || {};
-    return (b.lead ? '<div class="lead-box"><span class="lb">💡 一言でいうと</span>' + UI.esc(b.lead) + '</div>' : '') +
+    return (b.lead ? '<div class="lead-box"><span class="lb">💡 一言でいうと</span>' + UI.rich(b.lead) + '</div>' : '') +
       (b.sections || []).map(sectionHtml).join('') +
       (n.memo ? '<h3>📝 深掘りメモ</h3><div class="memo">' + UI.esc(n.memo) + '</div>' : '') +
       (n.mine ? '<h3>✍️ 自分のメモ<span class="mine-tag' + (n.mineDone ? ' done' : '') + '">' + (n.mineDone ? '✅ 本文に反映済み' : '次の朝、本文に組み込みます') + '</span></h3><div class="memo mine">' + UI.esc(n.mine) + '</div>' : '') +
