@@ -136,6 +136,14 @@ textarea { width: 100%; min-height: 70px; resize: vertical; }
 .sheet .src { font-size: 12.5px; color: var(--fg-dim); }
 .sheet .src a { color: var(--more); word-break: break-all; }
 .sheet .memo { background: var(--more-soft); border-radius: 10px; padding: 10px 12px; white-space: pre-wrap; font-size: 14px; }
+.tbl-wrap { overflow-x: auto; margin: 6px -4px; padding: 0 4px; }
+.sheet table { border-collapse: collapse; font-size: 13px; min-width: 100%; }
+.sheet th, .sheet td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+.sheet th { background: var(--sunk); white-space: nowrap; font-size: 12px; }
+.sheet td:first-child { font-weight: 700; white-space: nowrap; }
+.sheet td:last-child { min-width: 9em; }
+.maprow { padding-left: 14px; }
+.maprow:first-child { border-top: none; }
 .marks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 20px; }
 .marks button { border: 1px solid var(--line); background: var(--sunk); border-radius: 10px; padding: 10px 2px; font-size: 13px; font-weight: 700; }
 .marks button.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
