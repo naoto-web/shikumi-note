@@ -4,6 +4,7 @@ var Note = (function () {
 
   function sectionHtml(sec) {
     var h = '<h3>' + UI.esc(sec.h || '') + '</h3>';
+    if (sec.chart) h += Chart.html(sec.chart);
     if (sec.text) h += '<p>' + UI.esc(sec.text) + '</p>';
     if (sec.items && sec.items.length) {
       var tag = sec.ol ? 'ol' : 'ul';
