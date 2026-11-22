@@ -6,9 +6,43 @@ var UI = (function () {
     });
   }
 
-  // 本文の **大事な部分** を太字＋下線にする（11/22 Naoto）。先に無害化してから印だけを置きかえる
-  function rich(s) {
-    return esc(s).replace(/\*\*([^*]+?)\*\*/g, '<b class="key">$1</b>');
+  // 文の中から用語集の言葉を見つけて、押せるようにする（長い言葉を先に探す・重なったら先に見つけたほう）
+  // seen＝そのノートでもう押せるようにした言葉。1本のノートで最初の1回だけにするため
+  function linkTerms(text, seen) {
+    var terms = Store.termsByLen || [];
+    if (!seen || !terms.length || !text) return esc(text);
+    var hits = [];
+    for (var i = 0; i < terms.length; i++) {
+      var w = terms[i];
+      if (seen[w]) continue;
+      var at = text.indexOf(w);
+      while (at >= 0) {
+        var end = at + w.length;
+        var clash = hits.some(function (h) { return at < h.end && end > h.at; });
+        if (!clash) { hits.push({ at: at, end: end, w: w }); seen[w] = true; break; }
+        at = text.indexOf(w, at + 1);
+      }
+    }
+    if (!hits.length) return esc(text);
+    hits.sort(function (a, b) { return a.at - b.at; });
+    var out = '';
+    var pos = 0;
+    hits.forEach(function (h) {
+      out += esc(text.substring(pos, h.at)) + '<span class="term" data-term="' + esc(h.w) + '">' + esc(h.w) + '</span>';
+      pos = h.end;
+    });
+    return out + esc(text.substring(pos));
+  }
+
+  // 本文の **大事な部分** を太字＋下線にする（11/22 Naoto）。seen を渡すと、用語も押せるようにする
+  function rich(s, seen) {
+    var parts = String(s == null ? '' : s).split('**');
+    // ** が対になっていないときは、印として扱わない
+    if (parts.length % 2 === 0) return linkTerms(parts.join('**'), seen);
+    return parts.map(function (p, i) {
+      var h = linkTerms(p, seen);
+      return i % 2 ? '<b class="key">' + h + '</b>' : h;
+    }).join('');
   }
   // 印を取った文字だけ（カードの書き出しなど、飾りを出さない所で使う）
   function plain(s) {
@@ -57,7 +91,7 @@ var UI = (function () {
 
 // 画面全体で持つデータ。GAS の init の結果をここに入れて、各タブはここから描く
 var Store = (function () {
-  var s = { topics: [], byId: {}, groups: [], home: [], review: null, settings: { honsu: 3, honsen: [], off: [] }, notes: {}, today: '' };
+  var s = { terms: [], termMap: {}, termsByLen: [], topics: [], byId: {}, groups: [], home: [], review: null, settings: { honsu: 3, honsen: [], off: [] }, notes: {}, today: '' };
 
   // GASからは [id, まとまり, 分野, お題, 形, 印, ノートあり, 先に読みたい, ひとこと, 深掘りメモあり] の並びで届く
   function toTopic(a) {
@@ -84,6 +118,11 @@ var Store = (function () {
     s.review = res.review || null;
     s.settings = res.settings || s.settings;
     s.today = res.today || '';
+    // 🔤用語集＝[言葉, 読み, 説明, 分野]
+    s.terms = (res.terms || []).map(function (a) { return { w: a[0], y: a[1], d: a[2], f: a[3] }; });
+    s.termMap = {};
+    s.terms.forEach(function (t) { s.termMap[t.w] = t; });
+    s.termsByLen = s.terms.map(function (t) { return t.w; }).sort(function (a, b) { return b.length - a.length; });
     s.notes = {};
     s.home.forEach(function (n) { s.notes[n.id] = n; });
     if (s.review) s.notes[s.review.id] = s.review;
