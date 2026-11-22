@@ -193,6 +193,9 @@ button.art { flex-direction: row; padding: 11px 14px; }
 .mine-tag.done { color: var(--accent); font-weight: 700; }
 .mine-box { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 4px; }
 .mine-box textarea { min-height: 96px; margin-bottom: 6px; }
+/* 本文の大事な部分（**…** で囲んだ所）＝太字＋下線 */
+.key { font-weight: 700; text-decoration: underline; text-decoration-color: #e0a91f; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
 /* 円グラフ（chart.js） */
 .pie { margin: 8px 0 4px; }
 .pie svg { display: block; width: 100%; max-width: 230px; margin: 0 auto 8px; }
