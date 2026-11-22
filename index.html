@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f3f2ee">
+<title>仕組みノート</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="仕組みノート">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<header class="top">
+  <h1 id="pageTitle">仕組みノート</h1>
+  <button id="reloadBtn" class="icon-btn" aria-label="読み直す">↻</button>
+</header>
+
+<main>
+  <section id="view-home" class="view">
+    <div id="progress" class="progress"></div>
+    <div id="homeList" class="list"></div>
+  </section>
+  <section id="view-list" class="view" hidden>
+    <div class="search-row">
+      <input id="listQ" type="search" placeholder="お題・ノートを探す" enterkeyhint="search">
+    </div>
+    <div id="listBody"></div>
+  </section>
+  <section id="view-more" class="view" hidden>
+    <div id="moreBody"></div>
+  </section>
+  <section id="view-settings" class="view" hidden>
+    <div id="settingsBody"></div>
+  </section>
+</main>
+
+<nav class="tabs">
+  <button data-tab="home" class="on"><span>🏠</span>今日<b id="homeBadge" hidden></b></button>
+  <button data-tab="list"><span>📚</span>一覧</button>
+  <button data-tab="more"><span>🔍</span>もっと知りたい<b id="moreBadge" hidden></b></button>
+  <button data-tab="settings"><span>⚙️</span>設定</button>
+</nav>
+
+<div id="sheetBack" class="sheet-back" hidden></div>
+<div id="sheet" class="sheet" hidden></div>
+<div id="toast" class="toast" hidden></div>
+
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/note.js"></script>
+<script src="js/home.js"></script>
+<script src="js/list.js"></script>
+<script src="js/more.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
