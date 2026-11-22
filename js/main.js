@@ -48,6 +48,7 @@ var Main = (function () {
     var b = e.target.closest('button[data-tab]');
     if (!b) return;
     // 分野のページを開いているときにノート帳のタブを押したら、まとまりの一覧へ戻る
+    if (b.dataset.tab === tab && tab === 'list' && Glossary.isOpen()) { Glossary.close(); return; }
     if (b.dataset.tab === tab && tab === 'list' && Field.isOpen()) { Field.close(); return; }
     if (b.dataset.tab === tab) { reload(); return; }
     show(b.dataset.tab);
