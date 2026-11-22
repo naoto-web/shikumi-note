@@ -156,6 +156,7 @@ textarea { width: 100%; min-height: 70px; resize: vertical; }
 .matome dl { margin: 0; font-size: 13.5px; }
 .matome dt { font-weight: 700; margin-top: 6px; }
 .matome dd { margin: 0; color: var(--fg-dim); }
+.m-chart { background: var(--panel); border: 1px solid var(--lead-line); border-radius: 10px; padding: 10px 12px 6px; margin-top: 4px; }
 .chapter { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-top: 10px; }
 .art, .art-head { display: flex; align-items: flex-start; gap: 8px; width: 100%; border: none; background: none; text-align: left; }
 .art { flex-direction: column; gap: 0; border-top: 1px solid var(--line); }
