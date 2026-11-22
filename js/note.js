@@ -9,6 +9,12 @@ var Note = (function () {
       var tag = sec.ol ? 'ol' : 'ul';
       h += '<' + tag + '>' + sec.items.map(function (x) { return '<li>' + UI.esc(x) + '</li>'; }).join('') + '</' + tag + '>';
     }
+    // 表（🗺業界マップの大手の一覧など）＝横にはみ出すときは表だけ横にスクロール
+    if (sec.table && sec.table.rows && sec.table.rows.length) {
+      h += '<div class="tbl-wrap"><table><thead><tr>' + (sec.table.head || []).map(function (x) { return '<th>' + UI.esc(x) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+        sec.table.rows.map(function (r) { return '<tr>' + (r || []).map(function (x) { return '<td>' + UI.esc(x) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+    }
+    if (sec.note) h += '<p class="src">' + UI.esc(sec.note) + '</p>';
     return h;
   }
 
