@@ -144,6 +144,52 @@ textarea { width: 100%; min-height: 70px; resize: vertical; }
 .sheet td:last-child { min-width: 9em; }
 .maprow { padding-left: 14px; }
 .maprow:first-child { border-top: none; }
+/* 分野のページ（まとめ＋章として読む） */
+.f-title { font-size: 20px; margin: 10px 0 2px; line-height: 1.4; }
+.matome { background: var(--lead); border: 1px solid var(--lead-line); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; }
+.matome.empty-m { background: var(--sunk); border-style: dashed; border-color: var(--line); color: var(--fg-dim); font-size: 13px; }
+.matome .m-head { font-weight: 700; display: flex; justify-content: space-between; align-items: baseline; }
+.matome .m-head span { font-size: 11px; font-weight: 400; color: var(--fg-dim); }
+.matome ul { padding-left: 1.3em; margin: 6px 0; }
+.matome li { margin: 5px 0; }
+.matome h4 { font-size: 13px; margin: 12px 0 2px; }
+.matome dl { margin: 0; font-size: 13.5px; }
+.matome dt { font-weight: 700; margin-top: 6px; }
+.matome dd { margin: 0; color: var(--fg-dim); }
+.chapter { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-top: 10px; }
+.art, .art-head { display: flex; align-items: flex-start; gap: 8px; width: 100%; border: none; background: none; text-align: left; }
+.art { flex-direction: column; gap: 0; border-top: 1px solid var(--line); }
+.art:first-child { border-top: none; }
+button.art { flex-direction: row; padding: 11px 14px; }
+.art-head { padding: 11px 14px; font-weight: 700; }
+.art .no { flex: none; width: 22px; color: var(--fg-faint); font-size: 12px; font-weight: 400; padding-top: 2px; }
+.art .name { flex: 1; min-width: 0; word-break: break-word; }
+.art .ic { flex: none; }
+.art.none .name { color: var(--fg-dim); font-weight: 400; }
+.art .saki { flex: none; font-size: 11px; color: var(--more); font-weight: 700; }
+.art .saki.dim { color: var(--fg-faint); font-weight: 400; }
+.art.open .art-head { background: var(--sunk); }
+.art-body { padding: 4px 16px 16px; width: 100%; }
+.art-body h3 { font-size: 14px; margin: 16px 0 4px; }
+.art-body p { margin: 4px 0; }
+.art-body ul, .art-body ol { padding-left: 1.35em; margin: 4px 0; }
+.art-body li { margin: 5px 0; }
+.art-body .btn { margin-top: 14px; }
+.addrow2 { margin: 12px 0 20px; }
+.lead-box { background: var(--lead); border: 1px solid var(--lead-line); border-radius: 10px; padding: 10px 12px; }
+.lead-box .lb { font-size: 12px; font-weight: 700; color: #8a5d00; display: block; margin-bottom: 2px; }
+.links { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.links button { text-align: left; border: 1px solid var(--line); background: var(--sunk); border-radius: 10px; padding: 8px 10px; font-size: 14px; }
+.links small { color: var(--fg-faint); margin-left: 4px; }
+.src { font-size: 12.5px; color: var(--fg-dim); }
+.src a { color: var(--more); word-break: break-all; }
+.memo { background: var(--more-soft); border-radius: 10px; padding: 10px 12px; white-space: pre-wrap; font-size: 14px; }
+.memo.mine { background: #eef6e6; }
+.art-body table { border-collapse: collapse; font-size: 13px; min-width: 100%; }
+.art-body th, .art-body td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+.art-body th { background: var(--sunk); white-space: nowrap; font-size: 12px; }
+.mine-box { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 4px; }
+.mine-box textarea { min-height: 96px; margin-bottom: 6px; }
 .marks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 20px; }
 .marks button { border: 1px solid var(--line); background: var(--sunk); border-radius: 10px; padding: 10px 2px; font-size: 13px; font-weight: 700; }
 .marks button.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
