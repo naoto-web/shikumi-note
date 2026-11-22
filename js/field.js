@@ -52,6 +52,12 @@ var Field = (function () {
     var b = m.body || {};
     var h = '<div class="matome"><div class="m-head">🧭 この分野のまとめ<span>' + UI.dateShort(m.updated) + ' 更新</span></div>';
     if (b.points && b.points.length) h += '<ul>' + b.points.map(function (x) { return '<li>' + UI.esc(x) + '</li>'; }).join('') + '</ul>';
+    // まとめの中のグラフ（その分野の全体像が一目で分かるものを1〜2個）
+    (b.charts || []).slice(0, 2).forEach(function (c) {
+      var g = Chart.html(c.chart);
+      if (!g) return;
+      h += '<h4>' + UI.esc(c.h || '🥧 内訳') + '</h4><div class="m-chart">' + g + (c.note ? '<p class="src">' + UI.esc(c.note) + '</p>' : '') + '</div>';
+    });
     if (b.numbers && b.numbers.length) {
       h += '<h4>📏 基準になる数字</h4><dl>' + b.numbers.map(function (x) { return '<dt>' + UI.esc(x.l) + '</dt><dd>' + UI.esc(x.v) + '</dd>'; }).join('') + '</dl>';
     }
