@@ -14,7 +14,7 @@ var List = (function () {
   }
 
   function renderTree() {
-    return Store.groups.map(function (g) {
+    return '<button class="gloss-entry" data-gloss><span>🔤 用語集</span><span class="cnt">' + Store.terms.length + '語 ›</span></button>' + Store.groups.map(function (g) {
       var all = [];
       g.fields.forEach(function (f) { all = all.concat(f.topics); });
       var c = Store.count(all);
@@ -55,6 +55,7 @@ var List = (function () {
   }
 
   function render() {
+    if (Glossary.isOpen()) return;
     if (Field.isOpen()) { Field.render(); return; }
     document.getElementById('listBody').innerHTML = q ? renderSearch() : renderTree();
   }
@@ -83,6 +84,7 @@ var List = (function () {
   document.getElementById('listBody').addEventListener('click', function (e) {
     var el = e.target.closest('button');
     if (!el) return;
+    if (el.hasAttribute('data-gloss')) { Glossary.open(); return; }
     if (el.dataset.group) { openGroup = openGroup === el.dataset.group ? null : el.dataset.group; openField = null; render(); }
     else if (el.dataset.field) Field.open(el.dataset.field);
     else if (el.dataset.add) askAdd(el.dataset.add);
