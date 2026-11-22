@@ -1,4 +1,4 @@
-// note.js — ノートの全文（下から出るシート）と、3つの印・先に読みたい
+// note.js — ノートの全文（下から出るシート）と、3つの印・先に読みたい・自分のメモ
 var Note = (function () {
   var cur = null;
 
@@ -35,23 +35,30 @@ var Note = (function () {
     return '<h3>📚 出典</h3><div class="src">' + (b.asof ? '<p>' + UI.esc(b.asof) + '</p>' : '') + (src ? '<ul>' + src + '</ul>' : '') + '</div>';
   }
 
+  // ノートの中身（見出しと印のボタンを除く）＝シートでも、分野のページ（章として読む）でも同じものを使う
+  function bodyHtml(n) {
+    var b = n.body || {};
+    return (b.lead ? '<div class="lead-box"><span class="lb">💡 一言でいうと</span>' + UI.esc(b.lead) + '</div>' : '') +
+      (b.sections || []).map(sectionHtml).join('') +
+      (n.memo ? '<h3>📝 深掘りメモ</h3><div class="memo">' + UI.esc(n.memo) + '</div>' : '') +
+      (n.mine ? '<h3>✍️ 自分のメモ</h3><div class="memo mine">' + UI.esc(n.mine) + '</div>' : '') +
+      linksHtml(b.links) + sourcesHtml(b);
+  }
+
   function marksHtml(n) {
     function b(mark, label) { return '<button data-mark="' + mark + '"' + (n.mark === mark ? ' class="on"' : '') + '>' + label + '</button>'; }
     return '<div class="marks">' + b('わかった', '✅ わかった') + b('もっと知りたい', '🔍 もっと知りたい') + b('興味なし', '🙅 興味なし') + '</div>' +
       (n.mark === 'もっと知りたい' && n.hito ? '<div class="hito-line">知りたいこと：' + UI.esc(n.hito) + '</div>' : '') +
-      '<div class="hito-box" id="hitoBox" hidden><textarea id="hitoText" placeholder="どこが知りたい？（書かなくてもOK）"></textarea><button class="btn" data-hito-send>これで入れる</button></div>';
+      '<div class="hito-box" id="hitoBox" hidden><textarea id="hitoText" placeholder="どこが知りたい？（書かなくてもOK）"></textarea><button class="btn" data-hito-send>これで入れる</button></div>' +
+      '<details class="mine-box"><summary>✍️ 自分のメモを書く</summary><textarea id="mineText" placeholder="ほかで知ったこと、自分の言葉でのまとめ、気づいたこと">' + UI.esc(n.mine || '') + '</textarea>' +
+      '<button class="btn sub" data-mine-save>メモを保存</button><p class="info">書いたメモは、クロコが分野のまとめやノートの本文に組み込みます。</p></details>';
   }
 
   function render(n) {
     cur = n;
-    var b = n.body || {};
     UI.openSheet(
       '<div class="kind-line">' + UI.esc(n.matomari) + ' › ' + UI.esc(n.bunya) + (n.review ? '　🔁 前に読んだ1本' : '') + '</div>' +
-      '<h2>' + UI.esc(n.title) + '</h2>' +
-      (b.lead ? '<div class="lead-box"><span class="lb">💡 一言でいうと</span>' + UI.esc(b.lead) + '</div>' : '') +
-      (b.sections || []).map(sectionHtml).join('') +
-      (n.memo ? '<h3>📝 深掘りメモ</h3><div class="memo">' + UI.esc(n.memo) + '</div>' : '') +
-      linksHtml(b.links) + sourcesHtml(b) + marksHtml(n)
+      '<h2>' + UI.esc(n.title) + '</h2>' + bodyHtml(n) + marksHtml(n)
     );
   }
 
@@ -98,6 +105,18 @@ var Note = (function () {
     });
   }
 
+  function saveMine() {
+    var n = cur;
+    if (!n) return;
+    var text = document.getElementById('mineText').value.trim();
+    var before = n.mine;
+    n.mine = text;
+    render(n);
+    Main.render();
+    UI.toast('メモを保存しました');
+    API.call('myMemo', { id: n.id, text: text }).catch(function (err) { n.mine = before; UI.toast('保存できませんでした：' + err.message); });
+  }
+
   document.getElementById('sheet').addEventListener('click', function (e) {
     var el = e.target.closest('button');
     if (!el) return;
@@ -114,6 +133,8 @@ var Note = (function () {
       sendMark(mark, '');
     } else if (el.hasAttribute('data-hito-send')) {
       sendMark('もっと知りたい', document.getElementById('hitoText').value.trim());
+    } else if (el.hasAttribute('data-mine-save')) {
+      saveMine();
     } else if (el.dataset.link) {
       open(el.dataset.link);
     } else if (el.dataset.saki) {
@@ -127,5 +148,5 @@ var Note = (function () {
     }
   });
 
-  return { open: open };
+  return { open: open, bodyHtml: bodyHtml };
 })();
