@@ -190,6 +190,22 @@ button.art { flex-direction: row; padding: 11px 14px; }
 .art-body th { background: var(--sunk); white-space: nowrap; font-size: 12px; }
 .mine-box { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 4px; }
 .mine-box textarea { min-height: 96px; margin-bottom: 6px; }
+/* 円グラフ（chart.js） */
+.pie { margin: 8px 0 4px; }
+.pie svg { display: block; width: 100%; max-width: 230px; margin: 0 auto 8px; }
+.pie path { cursor: pointer; transition: opacity .15s; }
+.pie path.dim { opacity: .28; }
+.pie .pt { font-size: 11px; fill: var(--fg-dim); }
+.pie .pv { font-size: 19px; font-weight: 700; fill: var(--fg); }
+.pie .lgs { display: flex; flex-direction: column; }
+.pie .lg { display: flex; align-items: center; gap: 8px; width: 100%; border: none; border-top: 1px solid var(--line); background: none; text-align: left; padding: 7px 2px; font-size: 14px; color: var(--fg); }
+.pie .lg:first-child { border-top: none; }
+.pie .lg i { flex: none; width: 12px; height: 12px; border-radius: 3px; }
+.pie .lg .nm { flex: 1; min-width: 0; }
+.pie .lg .vl { flex: none; font-variant-numeric: tabular-nums; font-weight: 700; }
+.pie .lg .pc { flex: none; width: 4.2em; text-align: right; font-variant-numeric: tabular-nums; color: var(--fg-dim); font-size: 13px; }
+.pie .lg.dim { opacity: .4; }
+.pie .lg.pick { background: var(--sunk); }
 .marks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 20px; }
 .marks button { border: 1px solid var(--line); background: var(--sunk); border-radius: 10px; padding: 10px 2px; font-size: 13px; font-weight: 700; }
 .marks button.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
