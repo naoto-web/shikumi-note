@@ -118,6 +118,8 @@ var Store = (function () {
     s.review = res.review || null;
     s.settings = res.settings || s.settings;
     s.today = res.today || '';
+    // 🏢会社一覧の材料＝業界マップごとの表の中身（kaisha.js が並べる）
+    s.kaisha = res.kaisha || [];
     // 🔤用語集＝[言葉, 読み, 説明, 分野]
     s.terms = (res.terms || []).map(function (a) { return { w: a[0], y: a[1], d: a[2], f: a[3] }; });
     s.termMap = {};
