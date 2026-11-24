@@ -1,7 +1,7 @@
 // main.js — 起動・タブ切り替え・読み直し（前回の中身をすぐ出してから最新を取りに行く）
 var Main = (function () {
   var CACHE = 'sn_init';
-  var TITLES = { home: '仕組みノート', list: '📚 ノート帳', map: '🗺 業界マップ', more: '🔍 もっと知りたい', settings: '⚙️ 設定' };
+  var TITLES = { home: '仕組みノート', list: '📚 ノート帳', map: '🗺 業界', more: '🔍 もっと知りたい', settings: '⚙️ 設定' };
   var tab = 'home';
   var lastLoad = 0;
 
